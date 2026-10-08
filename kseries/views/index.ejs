@@ -1,0 +1,22 @@
+<%- include('partials/header') %>
+<section class="hero">
+  <h1>ดูซีรีย์เกาหลี ให้ใจได้พัก 🍵</h1>
+  <p>แบ่งปันและค้นหาซีรีย์ที่ดูแล้วสบายใจ ฟีลกู๊ด อบอุ่น</p>
+  <form class="search" method="get" action="/">
+    <input name="q" value="<%= q %>" placeholder="ค้นหาชื่อซีรีย์...">
+    <select name="genre">
+      <option value="">ทุกหมวดหมู่</option>
+      <% GENRES.forEach(g => { %><option <%= genre === g ? 'selected' : '' %>><%= g %></option><% }) %>
+    </select>
+    <button class="btn">ค้นหา</button>
+  </form>
+</section>
+<div class="row-between">
+  <h2>ซีรีย์แนะนำ (<%= list.length %>)</h2>
+  <a class="btn" href="/series/new">＋ เพิ่มซีรีย์</a>
+</div>
+<% if (!list.length) { %><div class="empty">ยังไม่พบซีรีย์ ลองค้นหาด้วยคำอื่นดูนะ 🌱</div><% } %>
+<div class="grid">
+  <% list.forEach(s => { %><%- include('partials/card', { s }) %><% }) %>
+</div>
+<%- include('partials/footer') %>

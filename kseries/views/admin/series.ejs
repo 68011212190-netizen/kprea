@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<h2>จัดการซีรีย์ทั้งหมด</h2>
+<%- include('nav') %>
+<div class="panel scroll"><table>
+  <tr><th>#</th><th>ชื่อ</th><th>หมวด</th><th>คะแนน</th><th>ผู้เพิ่ม</th><th>คอมเมนต์</th><th></th></tr>
+  <% list.forEach(s => { %>
+  <tr>
+    <td><%= s.id %></td><td><a href="/series/<%= s.id %>"><%= s.title %></a></td><td><%= s.genre %></td>
+    <td><%= s.rating %>★</td><td><%= s.owner %></td><td><%= s.comment_count %></td>
+    <td><form method="post" action="/series/<%= s.id %>/delete" class="inline" onsubmit="return confirm('ลบซีรีย์นี้?')">
+      <input type="hidden" name="_csrf" value="<%= csrf %>"><input type="hidden" name="back" value="admin"><button class="btn danger sm">ลบ</button></form></td>
+  </tr>
+  <% }) %>
+</table></div>
+<%- include('../partials/footer') %>

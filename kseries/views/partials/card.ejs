@@ -1,0 +1,11 @@
+<a class="card" href="/series/<%= s.id %>">
+  <div class="poster" <% if (s.image_url) { %>style="background-image:url('<%= s.image_url.replace(/'/g, '%27') %>')"<% } %>>
+    <% if (!s.image_url) { %><span>🎬</span><% } %>
+    <em class="tag"><%= s.genre %></em>
+  </div>
+  <div class="card-body">
+    <h3><%= s.title %></h3>
+    <div class="stars"><%= '★'.repeat(s.rating) + '☆'.repeat(5 - s.rating) %></div>
+    <p class="muted">โดย <%= s.owner %> · 💬 <%= s.comment_count %></p>
+  </div>
+</a>

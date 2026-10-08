@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+<h2>แดชบอร์ดผู้ดูแลระบบ</h2>
+<%- include('nav') %>
+<div class="stats">
+  <div class="stat"><b><%= stats.users %></b>ผู้ใช้</div>
+  <div class="stat"><b><%= stats.series %></b>ซีรีย์</div>
+  <div class="stat"><b><%= stats.comments %></b>ความคิดเห็น</div>
+  <div class="stat"><b><%= stats.messages %></b>ข้อความ</div>
+</div>
+<div class="panel">
+  <h3>ซีรีย์ล่าสุด</h3>
+  <table><tr><th>ชื่อ</th><th>หมวด</th><th>ผู้เพิ่ม</th><th>วันที่</th></tr>
+  <% latest.forEach(s => { %><tr><td><a href="/series/<%= s.id %>"><%= s.title %></a></td><td><%= s.genre %></td><td><%= s.owner %></td><td><%= s.created_at.slice(0, 10) %></td></tr><% }) %></table>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,44 @@
+<%- include('partials/header') %>
+<article class="detail">
+  <div class="poster big" <% if (s.image_url) { %>style="background-image:url('<%= s.image_url.replace(/'/g, '%27') %>')"<% } %>><% if (!s.image_url) { %><span>🎬</span><% } %></div>
+  <div>
+    <em class="tag static"><%= s.genre %></em>
+    <h1><%= s.title %></h1>
+    <div class="stars"><%= '★'.repeat(s.rating) + '☆'.repeat(5 - s.rating) %></div>
+    <p class="muted"><%= s.year ? 'ปี ' + s.year + ' · ' : '' %>แนะนำโดย <%= s.owner %> · <%= s.created_at.slice(0, 10) %></p>
+    <p class="review"><%= s.review %></p>
+    <% if (user && (user.id === s.user_id || user.role === 'admin')) { %>
+    <div class="actions">
+      <% if (user.id === s.user_id) { %><a class="btn ghost sm" href="/series/<%= s.id %>/edit">แก้ไข</a><% } %>
+      <form method="post" action="/series/<%= s.id %>/delete" class="inline" onsubmit="return confirm('ยืนยันการลบ?')">
+        <input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn danger sm">ลบ</button>
+      </form>
+    </div>
+    <% } %>
+  </div>
+</article>
+
+<section class="panel">
+  <h2>💬 ความคิดเห็น (<%= comments.length %>)</h2>
+  <%- include('partials/errors', { errors }) %>
+  <% if (user) { %>
+  <form method="post" action="/series/<%= s.id %>/comments" class="comment-form">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <textarea name="body" rows="3" maxlength="500" placeholder="แชร์ความรู้สึกหลังดู..." required></textarea>
+    <button class="btn">ส่งความคิดเห็น</button>
+  </form>
+  <% } else { %><p class="muted"><a href="/login">เข้าสู่ระบบ</a> เพื่อแสดงความคิดเห็น</p><% } %>
+  <% comments.forEach(c => { %>
+    <div class="comment">
+      <div class="row-between"><strong><%= c.name %></strong><span class="muted"><%= c.created_at.slice(0, 16) %></span></div>
+      <p><%= c.body %></p>
+      <% if (user && (user.id === c.user_id || user.role === 'admin')) { %>
+      <form method="post" action="/comments/<%= c.id %>/delete" class="inline" onsubmit="return confirm('ลบความคิดเห็นนี้?')">
+        <input type="hidden" name="_csrf" value="<%= csrf %>"><button class="link-danger">ลบ</button>
+      </form>
+      <% } %>
+    </div>
+  <% }) %>
+  <% if (!comments.length) { %><p class="muted">ยังไม่มีความคิดเห็น เป็นคนแรกเลยนะ 🌼</p><% } %>
+</section>
+<%- include('partials/footer') %>
