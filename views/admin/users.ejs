@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+<h2>จัดการผู้ใช้</h2>
+<%- include('nav') %>
+<div class="panel scroll"><table>
+  <tr><th>#</th><th>ชื่อ</th><th>อีเมล</th><th>บทบาท</th><th>ซีรีย์</th><th>สมัครเมื่อ</th><th></th></tr>
+  <% users.forEach(u => { %>
+  <tr>
+    <td><%= u.id %></td><td><%= u.name %></td><td><%= u.email %></td>
+    <td><span class="pill <%= u.role %>"><%= u.role %></span></td><td><%= u.series_count %></td><td><%= u.created_at.slice(0, 10) %></td>
+    <td class="actions">
+      <% if (u.id !== user.id) { %>
+      <form method="post" action="/admin/users/<%= u.id %>/role" class="inline">
+        <input type="hidden" name="_csrf" value="<%= csrf %>">
+        <input type="hidden" name="role" value="<%= u.role === 'admin' ? 'user' : 'admin' %>">
+        <button class="btn ghost sm"><%= u.role === 'admin' ? 'ลดเป็น user' : 'ตั้งเป็น admin' %></button>
+      </form>
+      <form method="post" action="/admin/users/<%= u.id %>/delete" class="inline" onsubmit="return confirm('ลบผู้ใช้นี้และข้อมูลทั้งหมดของเขา?')">
+        <input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn danger sm">ลบ</button>
+      </form>
+      <% } else { %><span class="muted">(คุณ)</span><% } %>
+    </td>
+  </tr>
+  <% }) %>
+</table></div>
+<%- include('../partials/footer') %>

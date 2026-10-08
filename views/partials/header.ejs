@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title ? title + ' | ' : '' %>ซีรีย์เกาหลี</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="/">🌸 ซีรีย์เกาหลี <small>시리즈</small></a>
+    <nav class="links">
+      <a href="/" class="<%= page === '/' ? 'on' : '' %>">หน้าแรก</a>
+      <a href="/contact" class="<%= page === '/contact' ? 'on' : '' %>">ติดต่อเรา</a>
+      <% if (user) { %>
+        <a href="/my">ซีรีย์ของฉัน</a>
+        <% if (user.role === 'admin') { %><a href="/admin" class="admin-link">⚙ แอดมิน</a><% } %>
+        <form method="post" action="/logout" class="inline">
+          <input type="hidden" name="_csrf" value="<%= csrf %>">
+          <button class="btn ghost sm">ออกจากระบบ (<%= user.name %>)</button>
+        </form>
+      <% } else { %>
+        <a href="/login">เข้าสู่ระบบ</a>
+        <a href="/register" class="btn sm">สมัครสมาชิก</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<% if (flash) { %><div class="alert <%= flash.type %>"><%= flash.msg %></div><% } %>

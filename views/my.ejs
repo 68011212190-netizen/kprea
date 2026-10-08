@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<div class="row-between"><h2>ซีรีย์ของฉัน (<%= list.length %>)</h2><a class="btn" href="/series/new">＋ เพิ่มซีรีย์</a></div>
+<% if (!list.length) { %><div class="empty">คุณยังไม่ได้เพิ่มซีรีย์ เริ่มแนะนำเรื่องแรกกันเลย 💕</div><% } %>
+<div class="grid">
+  <% list.forEach(s => { %>
+    <div>
+      <%- include('partials/card', { s }) %>
+      <div class="actions">
+        <a class="btn ghost sm" href="/series/<%= s.id %>/edit">แก้ไข</a>
+        <form method="post" action="/series/<%= s.id %>/delete" class="inline" onsubmit="return confirm('ยืนยันการลบ?')">
+          <input type="hidden" name="_csrf" value="<%= csrf %>"><button class="btn danger sm">ลบ</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+</div>
+<%- include('partials/footer') %>

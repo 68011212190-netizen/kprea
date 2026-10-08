@@ -1,0 +1,27 @@
+<%- include('partials/header') %>
+<div class="panel narrow">
+  <h2><%= edit ? 'แก้ไขซีรีย์' : 'เพิ่มซีรีย์ใหม่' %></h2>
+  <%- include('partials/errors', { errors }) %>
+  <form method="post" action="<%= action %>">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <label>ชื่อซีรีย์ <input name="title" required maxlength="100" value="<%= s.title || '' %>"></label>
+    <div class="two">
+      <label>หมวดหมู่
+        <select name="genre" required>
+          <option value="">-- เลือก --</option>
+          <% GENRES.forEach(g => { %><option <%= s.genre === g ? 'selected' : '' %>><%= g %></option><% }) %>
+        </select>
+      </label>
+      <label>ปีที่ออกอากาศ <input type="number" name="year" min="1990" max="2100" value="<%= s.year || '' %>"></label>
+    </div>
+    <label>คะแนน (1-5)
+      <select name="rating">
+        <% for (let i = 5; i >= 1; i--) { %><option value="<%= i %>" <%= +s.rating === i ? 'selected' : '' %>><%= '★'.repeat(i) %> (<%= i %>)</option><% } %>
+      </select>
+    </label>
+    <label>ลิงก์รูปโปสเตอร์ (ไม่บังคับ) <input name="image_url" placeholder="https://..." value="<%= s.image_url || '' %>"></label>
+    <label>รีวิว / เหตุผลที่แนะนำ <textarea name="review" rows="6" required minlength="10" maxlength="2000"><%= s.review || '' %></textarea></label>
+    <div class="actions"><button class="btn">บันทึก</button><a class="btn ghost" href="javascript:history.back()">ยกเลิก</a></div>
+  </form>
+</div>
+<%- include('partials/footer') %>

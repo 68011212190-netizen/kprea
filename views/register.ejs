@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+<div class="panel narrow">
+  <h2>สมัครสมาชิก</h2>
+  <%- include('partials/errors', { errors }) %>
+  <form method="post" action="/register">
+    <input type="hidden" name="_csrf" value="<%= csrf %>">
+    <label>ชื่อที่แสดง <input name="name" required maxlength="40" value="<%= f.name || '' %>"></label>
+    <label>อีเมล <input type="email" name="email" required value="<%= f.email || '' %>"></label>
+    <label>รหัสผ่าน (อย่างน้อย 8 ตัว) <input type="password" name="password" required minlength="8"></label>
+    <label>ยืนยันรหัสผ่าน <input type="password" name="confirm" required minlength="8"></label>
+    <button class="btn block">สมัครสมาชิก</button>
+  </form>
+  <p class="muted center">มีบัญชีแล้ว? <a href="/login">เข้าสู่ระบบ</a></p>
+</div>
+<%- include('partials/footer') %>
